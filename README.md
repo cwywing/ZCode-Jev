@@ -3,6 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.7%2B-blue)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)](#安装三步)
 [![MCP](https://img.shields.io/badge/MCP-stdio%20%2F%20JSON--RPC%202.0-green)](#安装三步)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 > 把 [TypeSafe AI 的 Jev 轻量决策模型](https://docs.typesafe.ai/api)接入 ZCode 的**决策外脑**工具包——
 > 在任务生命周期的关键关口做"问一嘴"式的廉价判断，让主模型省下推理预算专注写代码。
@@ -24,6 +25,7 @@
 - [故障排查](#故障排查)
 - [卸载](#卸载)
 - [背景：相对原 Codex 方案的修正](#背景相对原-codex-方案的修正)
+- [许可证](#许可证)
 
 ## 这是什么
 
@@ -197,3 +199,7 @@ ZCode 侧：Settings → MCP 里 `jev` 显示已连接、5 个工具；会话里
 4. **无离线策略** —— 原件在缺密钥时直接 `RuntimeError`，会打断工作流。本版无密钥/网络失败/限流/超时时返回 `{"jev": "offline", "fallback_advice": ...}`，调用方按建议自行决策并注明，永不因 Jev 不可用而卡死。
 
 另有两处勘误说明：原方案 `"type": "noul"` **不是**笔误——noul 是 Jev 的三种决策原语之一（Choice / Score / Noul，Noul 即是否型判断）；本版报文格式已对齐 TypeSafe 官方文档（noul 返回 0–1 概率，choice 返回 `choice/probabilities/confidence`，score 返回 `score/legend/probabilities/confidence`），429/529 自动退避重试一次。新增密钥护栏：输入命中疑似密钥/Token/私钥特征时直接拒绝调用。
+
+## 许可证
+
+[MIT](LICENSE) © 2026 chanss
