@@ -1,0 +1,39 @@
+{
+  "_说明": [
+    "这是片段示例，不是完整配置文件。",
+    "把 servers.jev 这一项合并进 ~/.zcode/cli/config.json 的 mcp.servers 里（保留你已有的其他字段）。",
+    "ZCode 的 server 配置 schema 是严格的：未知字段会导致整个 server 被丢弃，只能用 command/args/cwd/env/enabled/timeoutMs。",
+    "command 必须是字符串；如果你的 python 不在 PATH 或版本低于 3.7，改成绝对路径或用 py 启动器（command: \"py\", args: [\"-3\", \"<脚本路径>\"]）。",
+    "改完重启 ZCode，在 Settings → MCP 里确认 jev 为已连接、工具数为 5。"
+  ],
+  "_macOS_注意": [
+    "Mac 上一般没有 python 命令，command 用 python3。",
+    "路径用 Unix 风格，例如：",
+    "{ \"command\": \"python3\", \"args\": [\"/Users/你的用户名/ZCode-Jev/jev_mcp.py\"], \"env\": { \"OPENROUTER_API_KEY\": \"sk-or-...\" } }"
+  ],
+  "_provider_选择": [
+    "三种 provider 任选其一，密钥填哪个就走哪个（自动识别，优先级 OpenRouter > TypeSafe > defapi）：",
+    "A. OpenRouter：env 里填 OPENROUTER_API_KEY（https://openrouter.ai/settings/keys 获取），模型 ~typesafe/jev-latest",
+    "B. Jev 官方 TypeSafe：env 里填 TYPESAFE_API_KEY（https://console.typesafe.ai/keys 获取），模型 jev-latest，",
+    "   { \"env\": { \"JEV_PROVIDER\": \"typesafe\", \"TYPESAFE_API_KEY\": \"...\" } }",
+    "C. defapi.org 中转站：env 里填 DEFAPI_API_KEY（dk- 开头，https://defapi.org 注册获取，需预充余额），",
+    "   走 https://api.defapi.org/api/v1/decisions，模型 typesafe/jev-1.13，报文与官方格式一致，",
+    "   { \"env\": { \"DEFAPI_API_KEY\": \"dk-...\" } }",
+    "想强制锁定某个 provider：env 里加 \"JEV_PROVIDER\": \"openrouter\" / \"typesafe\" / \"defapi\"。",
+    "注意：三家的 key 互不通用，别把 A 家的 key 放进 B 家的槽位（会被 401 拒绝）。",
+    "启动后可在 ZCode 日志/Settings → MCP 看到 jev 的 stderr 里打印的后端信息。"
+  ],
+  "mcp": {
+    "servers": {
+      "jev": {
+        "command": "python",
+        "args": ["C:\\wwwroot\\ZCode-Jev\\jev_mcp.py"],
+        "env": {
+          "OPENROUTER_API_KEY": "sk-or-v1-替换成你的密钥"
+        },
+        "enabled": true,
+        "timeoutMs": 45000
+      }
+    }
+  }
+}
